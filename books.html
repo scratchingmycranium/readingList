@@ -1,0 +1,247 @@
+
+<style>    
+    input[type=text] {
+        width: 100%;
+        padding: 25px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .add {
+        width: 100%;
+        background-color: #3aafa9;
+        color: #feffff;
+        padding: 25px; 
+        border: none;
+        border-radius: 4px; 
+    }
+    .i{
+        font-weight: 600;
+        font-family: verdana;
+        font-size:18px;
+        color: 2b7878;
+        padding-top: 25px; 
+        padding-bottom: 25px; 
+    }
+    .d{
+        font-weight: 400;
+        font-family: verdana;
+        font-size:15px;
+        color: 2b7878;
+        padding-left: 20px; 
+        padding-bottom: 21px; 
+        /* padding-left: 25px;  */
+    }
+    .d2{
+        font-weight: 700;
+        font-family: verdana;
+        font-size:15px;
+        color: black;
+        padding-left: 20px; 
+        padding-bottom: 10px; 
+        /* padding-left: 25px;  */
+    }
+    .d1{
+         
+        padding-bottom: 2px; 
+        /* padding-left: 25px;  */
+    }
+    .db{
+        font-weight: 600;
+        font-family: verdana;
+        font-size:18px;
+        color: 2b7878;
+        padding-top: 25px; 
+        padding-bottom: 25px; 
+        /* padding-left: 25px;  */
+    }
+    
+    .bold{
+        font-weight: 900;
+        font-family: verdana;
+        font-size:20px;
+        
+        /* color: 2b7878; */
+        
+    }
+    div.b{
+        background-color: lightgray;
+    }
+    .b {
+        padding: 5px; 
+        font-size:15px;
+        background-color: #af3a40;
+        font-family: verdana;
+        color:black;
+        opacity:.8;
+    }
+    .a {
+        padding: 5px; 
+        background-color: #af3a40;
+        font-family: verdana;
+        color:whitesmoke;
+        opacity:.8;
+    }
+   
+    .c{
+        background-color: blue; 
+    }
+    .text{
+        padding: 10px
+    }
+    .pretty{
+        font-weight: 700;
+        font-size: 50px; 
+        color: #3aafa9;  
+    }
+ 
+</style>
+
+<html>
+    <head>
+
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename = 'books.js') }}"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            var data = {{data|tojson}} 
+        </script>
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">   
+        <!-- meta data -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        
+        <script src="static\books.js"></script>
+        <title>Books</title>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    </head>
+    
+    <body>
+        <div class="containter">
+            <!-- form -->
+            <div class="row">
+                <div class="col-2"></div>
+                
+                <div class="col-8">
+                    <div class="mx-auto pretty" style="width: 750px;">Welome to Your Reading List!</div>
+                    <input id="title" type="text"  placeholder='title' required ></input>
+                    <input id="author" type="text"  placeholder='author' required></input>
+                    <input id="isbn" type="text"  placeholder='isbn' required></input>
+                    <input id= "own" type="checkbox" name="own" > Own<br>
+                    <input id= "read" type="checkbox" name="own" > Read<br>
+                    
+                    <label for="Priority">Priority</label>
+                    
+                    <select name="Priority" id = "Priority">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select> 
+
+                    <button onclick="add()" id="submit_name" class ="add">Add Book</button>
+                </div>
+            </div>
+            <!-- end form -->
+            
+            <!-- header -->
+            <div class="a row mt-5 text-center" >
+                <div class="container bold">
+                    <p class="text-center">Your Book List</p>
+                </div> 
+            </div>
+            <!-- end header -->
+            
+            <div class="b row text-center" >
+                <div class="container">
+                    <label for="sort">Sort By</label>
+
+                    <select name="sort" id = "sort" onchange="sorting();">
+                        <option value="Select">Select</option>
+                        <option value="author">Author</option>
+                        <option value="title">Title</option>
+                        <option value="priority">Priority</option>
+                    </select> 
+                </div> 
+            </div>
+            
+            <div class="row" >
+                    <div class="col-6 col-md-3">
+                        <div class="d2"> <u>Title</u></div>
+                    </div>
+
+                    <div class="col-6 col-md-2">
+                        <div class="d2"><u>Author</u></div>
+                    </div>
+                    
+                    <div class="col-6 col-md-2">
+                        <div class="d2"><u>ISBN</u></div>
+                    </div>
+                    
+                    <div class="col-6 col-md-1">
+                        <div class="d2"><u>Owned?</u></div>      
+                    </div>
+                    
+                    <div class="col-6 col-md-1">
+                        <div class="d2"><u>Read?</u></div>      
+                    </div>
+                    
+                    <div class="col-6 col-md-1">
+                        <div class="d2"><u>Priority</u></div>      
+                    </div>
+                    <div class="col-6 col-md-1">
+                            <div class="d"></div> 
+                    </div>
+                    
+                    <div class="col-6 col-md-1">
+                            <div class="d"></div> 
+                    </div>
+                    
+            </div>
+
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <div id="items1"></div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div id="items2"></div>
+                </div>
+            
+                <div class="col-6 col-md-2">
+                    <div id="items3"> </div>
+                </div>
+            
+                <div class="col-6 col-md-1">
+                    <div id="items5"></div>      
+                </div>
+            
+                <div class="col-6 col-md-1  ">
+                    <div id="items6"></div>      
+                </div>
+            
+                <div class="col-6 col-md-1">
+                    <div id="items7"></div>      
+                </div>
+            
+                <div class="col-6 col-md-1  ">
+                    <div id="items4"></div>      
+                </div>
+            
+                <div class="col-6 col-md-1  ">
+                    <div id="items8"></div>      
+                </div>
+            </div>
+        </div>
+    
+    </body>
+</html>
+
